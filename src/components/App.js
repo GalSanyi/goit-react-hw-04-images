@@ -13,7 +13,7 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [isPending, setIsPending] = useState(false);
   const [isModalOpen, setIsMOdalOpen] = useState(false);
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
   const [modalImg, setModalImg] = useState('');
 
   const handleSetQuery = ({ target: { name, value } }) => {
@@ -28,7 +28,7 @@ export default function App() {
   useEffect(() => {
     if (isPending) {
       fetchImages(query, page).then(img => {
-        this.setState(prev => ({
+        setImages(prev => ({
           images: page > 1 ? [...prev.images, ...img] : img,
           isPending: false,
         }));
@@ -37,7 +37,7 @@ export default function App() {
   });
 
   const handleToggleModal = image => {
-    this.setState(prev => ({
+    setIsMOdalOpen(prev => ({
       isModalOpen: !prev.isModalOpen,
       modalImg: image,
     }));
@@ -53,8 +53,8 @@ export default function App() {
         query={query}
         handleSubmitForm={handleSubmitForm}
       />
-      <ImageGallery handleToggleModal={handleToggleModal} images={image} />
-      {image.length >= 12 && (
+      <ImageGallery handleToggleModal={handleToggleModal} images={images} />
+      {images.length >= 12 && (
         <Button handleLoadMore={handleLoadMore.bind(this)} />
       )}
 
