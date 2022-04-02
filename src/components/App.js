@@ -16,31 +16,27 @@ export default function App() {
   const [images, setImages] = useState([]);
   const [modalImg, setModalImg] = useState('');
 
-  const handleSetQuery = ({ target: { name, value } }) => {
-    setQuery({ [name]: value });
+  const handleSetQuery = ({ target: { value } }) => {
+    setQuery({ value });
   };
 
   const handleSubmitForm = event => {
     event.preventDefault();
-    setIsPending({ isPending: true, page: 1 });
+    setPage(1);
   };
 
   useEffect(() => {
     if (isPending) {
       fetchImages(query, page).then(img => {
-        setImages(prev => ({
-          images: page > 1 ? [...prev.images, ...img] : img,
-          isPending: false,
-        }));
+        setImages(prev => (page > 1 ? [...prev, ...img] : img));
+        setIsPending(false);
       });
     }
-  });
+  }, [isPending, page, query]);
 
   const handleToggleModal = image => {
-    setIsMOdalOpen(prev => ({
-      isModalOpen: !prev.isModalOpen,
-      modalImg: image,
-    }));
+    setIsMOdalOpen(!isModalOpen);
+    setModalImg(image);
   };
   const handleLoadMore = () => {
     setPage(prev => ({ page: prev.page + 1, isPending: true }));
