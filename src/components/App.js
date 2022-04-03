@@ -32,7 +32,10 @@ export default function App() {
         .then(img => {
           setImages(prev => (page > 1 ? [...prev, ...img] : img));
         })
-        .finally(() => setIsPending(false));
+        .finally(() => setIsPending(false))
+        .catch(error => {
+          console.log(error.massage);
+        });
     }
   }, [isPending, page, query]);
 
