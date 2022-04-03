@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 import React, { useEffect } from 'react';
 import s from './Modal.module.css';
 
 export default function Modal({ handleToggleModal, modalImg }) {
   const onCloseModalByEsc = event => {
-    if (event.keyCode === 27) {
+    if (event.key === 'Escape') {
       handleToggleModal('');
     }
   };
