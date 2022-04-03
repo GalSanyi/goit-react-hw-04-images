@@ -10,9 +10,9 @@ export default function Modal({ handleToggleModal, modalImg }) {
 
   useEffect(() => {
     window.addEventListener('keydown', onCloseModalByEsc);
-  });
-  useEffect(() => {
-    window.removeEventListener('keydown', onCloseModalByEsc);
+    return () => {
+      window.removeEventListener('keydown', onCloseModalByEsc);
+    };
   });
 
   return (

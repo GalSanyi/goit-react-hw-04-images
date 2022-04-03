@@ -17,20 +17,22 @@ export default function App() {
   const [modalImg, setModalImg] = useState('');
 
   const handleSetQuery = ({ target: { value } }) => {
-    setQuery({ value });
+    setQuery(value);
   };
 
   const handleSubmitForm = event => {
     event.preventDefault();
     setPage(1);
+    setIsPending(true);
   };
 
   useEffect(() => {
     if (isPending) {
-      fetchImages(query, page).then(img => {
-        setImages(prev => (page > 1 ? [...prev, ...img] : img));
-        setIsPending(false);
-      });
+      fetchImages(query, page)
+        .then(img => {
+          setImages(prev => (page > 1 ? [...prev, ...img] : img));
+        })
+        .finally(() => setIsPending(false));
     }
   }, [isPending, page, query]);
 
@@ -39,7 +41,8 @@ export default function App() {
     setModalImg(image);
   };
   const handleLoadMore = () => {
-    setPage(prev => ({ page: prev.page + 1, isPending: true }));
+    setPage(prev => prev + 1);
+    setIsPending(true);
   };
 
   return (
